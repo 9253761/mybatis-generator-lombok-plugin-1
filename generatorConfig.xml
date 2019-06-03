@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+
+<generatorConfiguration>
+
+    <!-- 配置文件 -->
+    <properties resource="generatorConfig.properties"/>
+    <!-- context 是逆向工程的主要配置 -->
+    <context id="mysql" targetRuntime="MyBatis3">
+        <!-- 本地插件，自动注解 @Data -->
+        <plugin type="com.cy.mybatis.generator.lombok.plugins.LombokPlugin"/>
+        <!-- 本地插件，生成数据库注释 -->
+        <plugin type="com.cy.mybatis.generator.lombok.plugins.CommentPlugin"/>
+
+        <commentGenerator>
+            <!-- 是否去除自动生成的注释 true：是 ： false:否 -->
+            <property name="suppressAllComments" value="true"/>
+            <property name="suppressDate" value="true"/>
+        </commentGenerator>
+
+        <!-- 数据库相关配置 -->
+        <jdbcConnection driverClass="${driver.class}"
+                        connectionURL="${driver.url}"
+                        userId="${driver.username}"
+                        password="${driver.password}">
+            <!-- 针对oracle数据库 -->
+            <!--<property name="remarksReporting" value="true"/>-->
+            <!-- 针对mysql数据库 -->
+            <property name="useInformationSchema" value="true"/>
+        </jdbcConnection>
+
+        <!-- 配置domain目录 -->
+        <javaModelGenerator targetPackage="${domain.package}"
+                            targetProject="${target.project}">
+            <!-- schema是否作为子目录 -->
+            <property name="enableSubPackages" value="false"/>
+        </javaModelGenerator>
+
+        <!-- 配置xml映射目录 -->
+        <sqlMapGenerator targetPackage="${xml.package}"
+                         targetProject="${xml.target.project}">
+            <!-- schema是否作为子目录 -->
+            <property name="enableSubPackages" value="false"/>
+        </sqlMapGenerator>
+
+        <!-- 配置dao目录 -->
+        <javaClientGenerator targetPackage="${dao.package}"
+                             targetProject="${target.project}"
+                             type="XMLMAPPER">
+            <!-- schema是否作为子目录 -->
+            <property name="enableSubPackages" value="false"/>
+        </javaClientGenerator>
+
+        <!-- schema:域名；tableName:表名；domainObjectName:Java类名。 -->
+        <table tableName="${table.name}" domainObjectName="${domain.name}"
+               enableCountByExample="false" enableUpdateByExample="false"
+               enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"/>
+    </context>
+</generatorConfiguration>
